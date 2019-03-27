@@ -4,12 +4,23 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+## SKILLS
 
-You can find the source code for the Jekyll new theme at:
-{% include icon-github.html username="jekyll" %} /
-[minima](https://github.com/jekyll/minima)
+- Ruby on Rails
+- Python
+- Dart
+- Flutter
 
-You can find the source code for Jekyll at
-{% include icon-github.html username="jekyll" %} /
-[jekyll](https://github.com/jekyll/jekyll)
+## EDUCATION & CREDENTIALS
+
+#### WEST COAST UNIVERSITY, Los Angeles, CA. 
+Master of Science in Electrical Engineering 1990
+Coursework: IDML VAX-11 Software Development
+
+#### CHULALONGKORN UNIVERSITY, Bangkok, Thailand. 
+Bachelor of Engineering in Electrical Engineering 1987
+Coursework: Telecommunication
+
+## RESOURCES
+
+- [Korakot Code Page](https://www.facebook.com/korakotcode/)
