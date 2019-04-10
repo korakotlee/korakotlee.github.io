@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="James Seppi's portfolio">
+
+  <title>James Seppi</title>
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/pure-min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.5.0/grids-responsive-min.css">
+
+  <link rel="stylesheet" href="/css/main.css">
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-36067549-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</head>
+<body>
+
+<div id="layout" class="pure-g">
+  <div class="sidebar pure-u-1 pure-u-md-1-4" id="left-sidebar">
+    <div class="header">
+      <hgroup>
+        <h1 class="blog-title">
+            <a href="/" title="Home">
+                <span class="first-name">James</span><br/>
+                <span class="last-name">Seppi</span>
+            </a>
+        </h1>
+        <h2 class="blog-tagline">Full Stack Developer in Austin, TX</h2>
+      </hgroup>
+
+      <nav class="nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a class="pure-button" href="https://github.com/jseppi">GitHub/jseppi</a>
+          </li>
+          <li class="nav-item">
+            <a class="pure-button" href="https://twitter.com/hydrologee">@hydrologee</a>
+          </li>
+          <li class="nav-item">
+            <a class="pure-button" href="/files/James Seppi Resume 2018-01-25.pdf" title="James Seppi's Résumé">Résumé</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="content pure-u-1 pure-u-md-3-4">
+    <div>
+      <div>
+        <section class="post">
+    <header class="post-header">
+        <img class="post-avatar" alt="Reid Burke&#x27;s avatar" height="48" width="48" src="/img/james.jpg">
+
+        <h1 class="post-title">Serving Map Tiles from TileStache with Vagrant, NGINX, and Gunicorn</h1>
+
+        <p class="post-meta">
+            By <a class="post-author" href="#">James</a> on November 01, 2012</a>
+        </p>
+    </header>
+
+    <div class="post-description">
+        <h2 id="before-you-start">Before You Start</h2>
+
+<p>You’re going to need a valid Mapnik XML file and some spatial data to serve as tiles.  I suggest using <a href="http://mapbox.com/tilemill/">TileMill</a> to style your data and export the Mapnik XML.  Note that if you use TileMill, you’ll have to edit the exported Mapnik XML so that the paths to the shapefiles are correct for the TileStache server we create here. You should also delete the &lt;Parameters&gt; section of your Mapnik XML because some earlier versions of Mapnik will error out if they encounter it.</p>
+
+<p>If you just want to get setup with a simple example, you can use <a href="/files/ts_countries.zip">this zip file</a> I created.</p>
+
+<h2 id="host-machine-setup">Host Machine Setup</h2>
+
+<p>First we have to get the host Linux machine setup.  This is the machine from which we will run our Vagrant virtual box. If not already there, <code class="highlighter-rouge">cd</code> to your preferred working directory.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir ~/Web/VagrantTileStache
+cd ~/Web/VagrantTileStache     
+</code></pre>
+</div>
+
+<h3 id="1-on-your-linux-host-machine-install-ruby-and-rubygems-if-you-havent-already">1. On your Linux host machine, install ruby and rubygems if you haven’t already.</h3>
+
+<p>For Fedora 17:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo yum install ruby rubygems
+</code></pre>
+</div>
+
+<p>For Ubuntu 12.04:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install ruby rubygems
+</code></pre>
+</div>
+
+<h3 id="2-install-virtualbox">2. Install VirtualBox</h3>
+
+<p>For Fedora 17:</p>
+
+<p>As seen at <a href="http://www.zealfortechnology.com/2012/06/install-oracle-virtualbox-on-fedora.html">http://www.zealfortechnology.com/2012/06/install-oracle-virtualbox-on-fedora.html</a>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl http://download.virtualbox.org/virtualbox/rpm/fedora/virtualbox.repo &gt; virtualbox.repo
+sudo mv virtualbox.repo /etc/yum.repos.d/
+sudo yum install dkms
+sudo yum install VirtualBox4.2
+</code></pre>
+</div>
+
+<p>Note: You might also need to <code class="highlighter-rouge">sudo yum install ruby-devel gcc</code></p>
+
+<p>For Ubuntu 12.04:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install virtualbox
+</code></pre>
+</div>
+
+<p>or you can download a newer version from <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html">http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html</a>.</p>
+
+<h3 id="3-install-and-setup-vagrant">3. Install and Setup Vagrant</h3>
+
+<p>As seen at <a href="http://samrat.me/blog/2012/05/flask-nginx-gunicornon-a-vagrant-box/">http://samrat.me/blog/2012/05/flask-nginx-gunicornon-a-vagrant-box/</a>.</p>
+
+<p>First we install the vagrant gem and download a base vagrant box (the VirtualBox) from which we’ll build our virtual machine.  For a list of available boxes, see <a href="http://www.vagrantbox.es/">http://www.vagrantbox.es/</a>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo gem install vagrant
+vagrant box add precise32 http://files.vagrantup.com/precise32.box
+</code></pre>
+</div>
+
+<p>Now create and <code class="highlighter-rouge">cd</code> to the directory you want to hold your Vagrant box.  I’ll put it in a folder called VagrantStache in my home directory.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir ~/VagrantStache
+cd ~/VagrantStache
+</code></pre>
+</div>
+
+<p>The next command will create a “Vagrantfile” in your current working directory</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vagrant init precise32
+</code></pre>
+</div>
+
+<p>Open the newly created “Vagrantfile” in your preferred text editor and uncomment the line <code class="highlighter-rouge">config.vm.network :hostonly, "192.168.33.10"</code> (near or at line 23).  You may also specify an address of your choosing instead of the default.</p>
+
+<p>Note: If you’d like to use a bridged network connection, uncomment the <code class="highlighter-rouge">config.vm.network :bridged</code> line instead (near or at line 28).</p>
+
+<p>See <a href="http://vagrantup.com/v1/docs/config/vm/network.html">http://vagrantup.com/v1/docs/config/vm/network.html</a> for details on the <code class="highlighter-rouge">config.vm.network</code> setting.</p>
+
+<p>Now we can start our guest vagrant box:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vagrant up
+</code></pre>
+</div>
+
+<p>Note: The first <code class="highlighter-rouge">vagrant up</code> might take a few minutes. Be patient!</p>
+
+<p>Other Notes:</p>
+<ul>
+  <li>If you need to change some settings in your “Vagrantfile”, make sure to do <code class="highlighter-rouge">vagrant reload</code></li>
+  <li>The directory where your “Vagrantfile” is mounted as a shared folder on your virtual Vagrant machine!  From your virtual machine it can be accessed at <code class="highlighter-rouge">/vagrant</code>.</li>
+</ul>
+
+<p>If you are using my <a href="/files/ts_countries.zip">example files</a>, <code class="highlighter-rouge">mv</code> that archive into the Vagrantfile directory so you can access them on your virtual machine.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mv ~/Downloads/ts_countries.zip ~/VagrantStache/
+</code></pre>
+</div>
+
+<h2 id="nginx-and-tilestache-on-the-guest-vagrant-box">NGINX and TileStache on the Guest Vagrant Box</h2>
+
+<p>Now that we have the host machine setup and running our guest Vagrant virtual machine, we can get to setting up TileStache and NGINX.</p>
+
+<h3 id="1-install-all-kinds-of-stuff">1. Install all kinds of stuff</h3>
+
+<p>First let’s get into an ssh session on our vagrant box.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>vagrant ssh
+</code></pre>
+</div>
+
+<p>Now we can start the installation fun!</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get update
+sudo apt-get install nginx python-pip python-imaging python-mapnik2 memcached 
+</code></pre>
+</div>
+
+<p>Note: memcached is optional, but it makes a nice caching provider for TileStache, so I’d recommend it.</p>
+
+<p>Note 2: python-imaging and python-mapnik2 are installed using <code class="highlighter-rouge">apt-get</code> to dist-packages because they do not play well with virtualenv.  If anyone knows how to get them to, please let me know!</p>
+
+<h3 id="2-create-a-virtualenv-for-your-tilestache">2. Create a virtualenv for your TileStache</h3>
+
+<p>We are going to use virtualenvwrapper to manage our python packages for our TileStache instance. Among other sweet features, virtualenvwrapper allows us to use global python packages along with our virtualenv packages to get around the python-imaging and python-mapnik2 problem.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo pip install virtualenvwrapper
+source /usr/local/bin/virtualenvwrapper.sh
+mkdir TileStacheServer
+mkvirtualenv --no-site-packages TileStacheServer
+</code></pre>
+</div>
+
+<p>You’ll now be operating withing a virtualenv, as indicated by the name in parentheses at the start of your terminal prompt, ex <code class="highlighter-rouge">(TileStacheServer) vagrant@precise32:/home/vagrant#</code></p>
+
+<p>Note: Exit the current virtualenv by typing <code class="highlighter-rouge">deactivate</code>.  Resume the virtualenv by typing <code class="highlighter-rouge">workon TileStacheServer</code>.</p>
+
+<p>If you are using my <a href="/files/ts_countries.zip">example files</a>, move and unzip those files into the new directory.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mv /vagrant/ts_countries.zip TileStacheServer/
+sudo apt-get install unzip
+cd TileStacheServer/
+unzip ts_countries.zip
+</code></pre>
+</div>
+
+<p>See <a href="http://blog.sidmitra.com/manage-multiple-projects-better-with-virtuale">http://blog.sidmitra.com/manage-multiple-projects-better-with-virtuale</a> for a more in-depth overview in setting up and using virtualenvwrapper</p>
+
+<h3 id="3-install-python-packages">3. Install python packages</h3>
+
+<p>Now we can install the python packages we need to run TileStache</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pip install tilestache modestmaps gunicorn python-memcached
+</code></pre>
+</div>
+
+<p>Note: python-memcached is only necessary if you want to use memcached as a cache provider for TileStache.</p>
+
+<p>And we also need to use virtualenvwrapper to toggle global site packages so we have access to PIL and Mapnik2</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>toggleglobalsitepackages    
+</code></pre>
+</div>
+
+<h3 id="4-configure-and-start-nginx-with-tilestache">4. Configure and Start NGINX with TileStache</h3>
+
+<p>Almost there!  We just need to configure NGINX and proxy requests to TileStache.</p>
+
+<p>As seen at <a href="http://samrat.me/blog/2012/05/flask-nginx-gunicornon-a-vagrant-box/">http://samrat.me/blog/2012/05/flask-nginx-gunicornon-a-vagrant-box/</a>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/etc/init.d/nginx start
+rm /etc/nginx/sites-enabled/default
+touch /etc/nginx/sites-available/TileStache
+ln -s /etc/nginx/sites-available/TileStache  /etc/nginx/sites-enabled/TileStache
+</code></pre>
+</div>
+
+<p>Then open <code class="highlighter-rouge">/etc/nginx/sites-enabled/TileStache</code> with your preferred text editor and add</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>server {
+    location / {
+        proxy_pass http://127.0.0.1:9001;
+    }
+}
+</code></pre>
+</div>
+
+<p>Restart nginx</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/etc/init.d/nginx restart
+</code></pre>
+</div>
+
+<p>And run TileStache using gunicorn, making sure to specify your TileStache config file.  If you are using my example files and have unzipped them into <code class="highlighter-rouge">~/TileStacheServer/</code> it will look like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>gunicorn -b 0.0.0.0:9001 "TileStache:WSGITileServer('/home/vagrant/TileStacheServer/tilestache.cfg')"
+</code></pre>
+</div>
+
+<h3 id="5-test-it-out-from-your-host-machine">5. Test it out from your Host Machine</h3>
+
+<p>Back on your host machine, navigate your web browser to the address you specified in your Vagrantfile back in step 3 (http://192.168.33.10/). You should see a message confirming TileStache is running:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>TileStache bellows hello.
+</code></pre>
+</div>
+
+<p>If you are using my example files, navigate your browser to http://192.168.33.10/countries/ and you should see an interactive map. The tiles themselves are accessible through URLs of the form http://192.168.33.10/countries/{z}/{x}/{y}.png (example: http://192.168.33.10/countries/0/0/0.png)</p>
+
+<p>Hooray!</p>
+
+<h2 id="resources">Resources:</h2>
+<ul>
+  <li><a href="http://vagrantup.com">Vagrant</a></li>
+  <li><a href="http://www.tilestache.org/">TileStache</a></li>
+  <li><a href="http://nginx.org/en/">NGINX</a></li>
+  <li><a href="http://virtualenvwrapper.readthedocs.org/en/latest/command_ref.html">virtualenvwrapper</a></li>
+  <li><a href="http://samrat.me/blog/2012/05/flask-nginx-gunicornon-a-vagrant-box/">http://samrat.me/blog/2012/05/flask-nginx-gunicornon-a-vagrant-box/</a></li>
+  <li><a href="http://blog.sidmitra.com/manage-multiple-projects-better-with-virtuale">http://blog.sidmitra.com/manage-multiple-projects-better-with-virtuale</a></li>
+</ul>
+
+    </div>
+</section>
+      </div>
+
+      <div class="footer">
+        <div class="pure-menu pure-menu-horizontal pure-menu-open"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
