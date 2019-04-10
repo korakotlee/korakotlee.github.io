@@ -2,10 +2,10 @@
 - name: KorApp
   organization: korakotlee
   github_repo: korakotlee/korapp
-  image: calc.png
+  image: korapp.png
   link: https://github.com/korakotlee
   about: |
-    KorApp is a Python framework to generate application in all languages.
+    KorApp is a Python framework to generate application in any languages.
 # - name: CALC
 #   organization: 18F
 #   github_repo: 18f/calc
