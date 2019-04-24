@@ -6,6 +6,13 @@
   link: https://github.com/korakotlee
   about: |
     KorApp is a Python framework to generate application in any languages.
+- name: KorStock
+  organization: korakotlee
+  github_repo: 
+  image: korstock.png
+  link: https://github.com/korakotlee
+  about: |
+    Stock game made from Flutter.
 # - name: CALC
 #   organization: 18F
 #   github_repo: 18f/calc
