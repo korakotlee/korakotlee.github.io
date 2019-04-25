@@ -10,7 +10,7 @@
   organization: korakotlee
   github_repo: 
   image: korstock.png
-  link: https://github.com/korakotlee
+  link: https://play.google.com/store/apps/details?id=com.korakotlee.korstock
   about: |
     Stock game made from Flutter.
 # - name: CALC
