@@ -2,10 +2,24 @@
 - name: KorApp
   organization: korakotlee
   github_repo: korakotlee/korapp
-  image: calc.png
+  image: korapp.png
   link: https://www.youtube.com/watch?v=VzzpWtplIuE
   about: |
-    KorApp is a Python framework to generate application in all languages.
+    KorApp is a Python framework to generate application in any languages.
+- name: KorStock
+  organization: korakotlee
+  github_repo: 
+  image: korstock.png
+  link: https://play.google.com/store/apps/details?id=com.korakotlee.korstock
+  about: |
+    Stock game made from Flutter.
+- name: KorSpeed
+  organization: korakotlee
+  github_repo: 
+  image: korspeed.png
+  link: https://play.google.com/store/apps/details?id=com.korakotlee.korspeed
+  about: |
+    Display speed and direction overlay on screen.
 # - name: CALC
 #   organization: 18F
 #   github_repo: 18f/calc
