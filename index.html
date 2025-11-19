@@ -9,14 +9,18 @@ published: true
     <div class="pure-g">
       <div class="pure-u-1">
         <img src="/img/korakot.jpg" alt="Korakot" />
+        <p>Senior Ruby on Rails engineer with 15+ years designing and shipping production systems
+          across fintech, healthtech, and e-commerce. Expert in building compliant,
+          test-driven backend APIs serving web and mobile clients.
+          Proven track record architecting service-oriented platforms, optimizing PostgreSQL
+          performance, and leading remote-first engineering practices through disciplined code
+          review, documentation, and asynchronous collaboration. </p>
         <p>
-          Ruby on Rails, Python, and Flutter mobile development. I have created
-          a ruby gem that generate Web Application from mind map called MindApp
-          (https://github.com/korakotlee/mindapp) which receive 2 awards in
-          2011. Now I have improved on top of that to generate all kinds of apps
-          called KorApp (https://github.com/korakotlee/korapp).
+          I also created several ruby gems such as MindApp
+          (https://github.com/korakotlee/mindapp), KorApp (https://github.com/korakotlee/korapp),
+          Anzen(https://github.com/korakotlee/anzen), and a game to help learn
+          stock pattern called KorStock.
         </p>
-        <p>I also create a game to help learn stock pattern called KorStock.</p>
       </div>
     </div>
   </div>
@@ -26,6 +30,7 @@ published: true
   <h2 class="content-subhead">Gems &amp; Packages</h2>
   <div class="pure-u-1">
     <ul>
+      <li><a href='https://github.com/korakotlee/anzen' target='_blank'>Anzen</a></li>
       <li><a href='https://pypi.org/project/korapp/' target='_blank'>KorApp</a></li>
       <li><a href='https://rubygems.org/gems/mindapp/versions/0.0.8' target='_blank'>MindApp</a></li>
     </ul>
@@ -43,6 +48,7 @@ published: true
             %}
           </h3>
 
+          {% if p.image %}
           <div class="img-container">
             <a href="{{ p.link }}" target="_blank" title="{{ p.name }}"
               ><img
@@ -50,6 +56,7 @@ published: true
                 src="/img/projects/{{ p.image }}"
             /></a>
           </div>
+          {% endif %}
 
           <p>
             {% if p.github_repo %}
@@ -95,7 +102,7 @@ published: true
   <h2 class="content-subhead">Contact</h2>
   <ul>
     <li>kleemakdej at gmail.com</li>
-    <li><a href="https://github.com/korakotlee">github.com/korakotlee</a></li>
+    <li><a href="https://github.com/korakotlee">Github</a></li>
     <li><a href="https://www.linkedin.com/in/korakot/">LinkedIn</a></li>
   </ul>
 </div>
