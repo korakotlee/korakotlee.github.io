@@ -3,13 +3,16 @@ layout: index
 published: true
 ---
 
-<div class="content-section">
+<div class="dashboard-card animate-fade-in delay-1">
   <h2 class="content-subhead" align="right">
     <img src="/img/logo_korakot.png" width="200" alt="Korakot" />
   </h2>
   <div class="at-a-glance">
     <div class="pure-g">
-      <div class="pure-u-1">
+      <div class="pure-u-1 pure-u-md-1-2">
+        <img src="/assets/dashboard-preview.gif" alt="Dashboard Preview" class="pure-img dashboard-card-img" style="border-radius: 8px; margin-bottom: 1em;" />
+      </div>
+      <div class="pure-u-1 pure-u-md-1-2">
         <img src="/img/korakot.jpg" alt="Korakot" />
         <p>Senior Ruby on Rails engineer with 15+ years designing and shipping production systems
           across fintech, healthtech, and e-commerce. Expert in building compliant,
@@ -28,7 +31,7 @@ published: true
   </div>
 </div>
 
-<div class="content-section">
+<div class="dashboard-card animate-fade-in delay-2">
   <h2 class="content-subhead">Gems &amp; Packages</h2>
   <div class="pure-u-1">
     <ul>
@@ -37,7 +40,9 @@ published: true
       <li><a href='https://rubygems.org/gems/mindapp/versions/0.0.8' target='_blank'>MindApp</a></li>
     </ul>
   </div>
+</div>
 
+<div class="dashboard-card animate-fade-in delay-3">
   <h2 class="content-subhead">Projects &amp; Activities</h2>
   <div class="project-list">
     <div class="project-item">
@@ -88,19 +93,7 @@ published: true
   </div>
 </div>
 
-{% comment %}
-<div class="content-section">
-  <h2 class="content-subhead">Posts</h2>
-  {% for item in site.categories.articles limit:40 offset:0 %}
-  <p>
-    {{ item.date | date: "%B %d, %Y" }} |
-    <a href="{{item.url}}" title="{{item.title}}">{{item.title}}</a>
-  </p>
-  {% endfor %}
-</div>
-{% endcomment %}
-
-<div class="content-section">
+<div class="dashboard-card animate-fade-in delay-3">
   <h2 class="content-subhead">Contact</h2>
   <ul>
     <li>kleemakdej at gmail.com</li>
