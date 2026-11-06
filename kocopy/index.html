@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KoCopy — clipboard to Google Docs</title>
+<style>
+  body { margin: 0; font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1c1c1e; background: #fbfbfd; }
+  main { max-width: 640px; margin: 0 auto; padding: 72px 24px 96px; }
+  h1 { font-size: 34px; letter-spacing: -0.5px; margin: 0 0 4px; }
+  .sub { color: #6e6e73; margin: 0 0 40px; }
+  h2 { font-size: 19px; margin: 36px 0 8px; }
+  p, li { color: #333; }
+  ul { padding-left: 22px; }
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid #e5e5ea; color: #6e6e73; font-size: 15px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; background: #f2f2f7; padding: 1px 5px; border-radius: 4px; }
+  a { color: #0071e3; }
+</style>
+</head>
+<body>
+<main>
+  <h1>KoCopy</h1>
+  <p class="sub">A small macOS tool that turns things you copy into Google Docs.</p>
+
+  <h2>What it does</h2>
+  <p>KoCopy watches the clipboard on your own Mac. When you copy a snippet you want to keep, it creates or updates a document in your own Google Drive using the Google Docs API, siphoning long text out of the clipboard and into a document you can keep.</p>
+
+  <h2>How it runs</h2>
+  <ul>
+    <li>It is a local command-line program. There is no KoCopy server, and nothing is sent anywhere except directly to Google's APIs.</li>
+    <li>Authentication uses your own Google OAuth client, stored locally in <code>~/.config/kocopy/</code>.</li>
+    <li>Documents are created in the Google Account you authorize — nobody else can see them.</li>
+  </ul>
+
+  <h2>Privacy</h2>
+  <p>See the <a href="privacy.html">privacy policy</a> for what is stored locally and what is sent to Google.</p>
+
+  <footer>
+    KoCopy is a personal open-source project by Korakot Leemakdej.
+  </footer>
+</main>
+</body>
+</html>
