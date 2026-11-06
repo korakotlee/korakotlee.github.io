@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KoCopy — Privacy Policy</title>
+<style>
+  body { margin: 0; font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1c1c1e; background: #fbfbfd; }
+  main { max-width: 640px; margin: 0 auto; padding: 72px 24px 96px; }
+  h1 { font-size: 32px; letter-spacing: -0.5px; margin: 0 0 4px; }
+  .sub { color: #6e6e73; margin: 0 0 36px; }
+  h2 { font-size: 19px; margin: 32px 0 8px; }
+  p, li { color: #333; }
+  ul { padding-left: 22px; }
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid #e5e5ea; color: #6e6e73; font-size: 15px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; background: #f2f2f7; padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Privacy Policy</h1>
+  <p class="sub">KoCopy · last updated 6 November 2026</p>
+
+  <h2>Summary</h2>
+  <p>KoCopy runs entirely on your own computer. It has no backend service, no analytics, no advertising, and no third-party sharing. The only network requests it makes are to Google APIs, on your behalf, using credentials you supply.</p>
+
+  <h2>What is stored on your computer</h2>
+  <ul>
+    <li><code>~/.config/kocopy/credentials.json</code> — the OAuth client you created in your own Google Cloud project.</li>
+    <li><code>~/.config/kocopy/token.yaml</code> — the OAuth access and refresh token returned by Google after you approve access.</li>
+    <li><code>~/.config/kocopy/queue/</code> — clipboard items not yet uploaded, so nothing is lost while offline.</li>
+    <li><code>~/.config/kocopy/kocopy.log</code> — a local log of the tool's own activity.</li>
+  </ul>
+  <p>These files stay on your machine with owner-only permissions. They are never transmitted anywhere except to Google as part of the standard OAuth token exchange.</p>
+
+  <h2>What is sent to Google</h2>
+  <p>When you copy text that KoCopy decides to keep, that text is sent to the Google Docs and Google Drive APIs to create or update a document inside your own Google Account. Text you do not keep is never uploaded.</p>
+
+  <h2>What is not collected</h2>
+  <p>No accounts are created with the developer, no usage data or telemetry is collected, and no data is sold or shared with anyone. KoCopy cannot read data outside the Google Account you authorize.</p>
+
+  <h2>Revoking access</h2>
+  <p>You can revoke KoCopy's access at any time from your Google Account permissions page, or by deleting the token file above. Deleting the files in <code>~/.config/kocopy/</code> removes everything KoCopy has stored.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this policy: korakotdev@gmail.com.</p>
+
+  <footer>
+    KoCopy is a personal open-source project by Korakot Leemakdej.
+  </footer>
+</main>
+</body>
+</html>
